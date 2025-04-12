@@ -1,1 +1,8 @@
 /venv
+/app/.env
+/app/*.pyc
+/app/*.pyo
+/app/*.pyd
+/app/*.db
+/app/*.sqlite3
+/app/__pycache__/
