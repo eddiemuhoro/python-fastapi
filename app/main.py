@@ -22,12 +22,12 @@ async def root():
     return {"message": "Hello, World!"}
 
 
-@app.get("/devices")
+@app.get("/rdms/devices")
 async def read_devices():
     devices = await get_all_devices(db=SessionLocal())
     return devices
 
-@app.get("/discharge_data")
+@app.get("/rdms")
 async def read_discharge_data():
     discharge_data = await get_all_discharge_data(db=SessionLocal())
     return discharge_data
