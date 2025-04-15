@@ -11,7 +11,8 @@ class Deployments(Base):
     lng = Column(Float, nullable=True)
     date_registered = Column(DateTime, default=datetime.utcnow)
 
-    discharge_data = relationship("DischargeData", back_populates="deployment")  # FIXED TYPO
+    discharge_data = relationship("DischargeData", back_populates="deployment")
+    alerts = relationship("Alerts", back_populates="deployment")
 
 class DischargeData(Base):
     __tablename__ = "discharge_data"
@@ -31,3 +32,21 @@ class DischargeData(Base):
 
     device_id = Column(Integer, ForeignKey("deployments.id"), nullable=True)
     deployment = relationship("Deployments", back_populates="discharge_data")
+
+
+class Alerts(Base):
+    __tablename__ = "alerts"
+
+    alert_id = Column(Integer, primary_key=True, index=True)  # Primary key
+    level = Column(Float, nullable=False)  # Level
+    message = Column(String, nullable=False)  # Alert message
+    alert_time = Column(DateTime, default=datetime.utcnow)  # Time of the alert
+    abstractor_name = Column(String, nullable=True)  # Abstractor's name
+    abstractor_phone = Column(String, nullable=True)  # Abstractor's phone number
+    catchment = Column(String, nullable=True)  # Catchment area
+    alertType = Column(String, nullable=False)  # Type of alert
+
+    device_id = Column(Integer, ForeignKey("deployments.id"), nullable=True)  # Foreign key to deployments table
+    deployment = relationship("Deployments", back_populates="alerts")
+    
+    
