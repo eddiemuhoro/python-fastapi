@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from .database import engine, SessionLocal
 from .models import Base
 from .crud import get_all_devices, get_all_discharge_data, get_all_alerts
+from .chat import router as chat_router
 
 # This runs once when the server starts
 async def lifespan(app: FastAPI):
@@ -45,3 +46,5 @@ async def read_discharge_data():
 async def read_alerts():
     alerts = await get_all_alerts(db=SessionLocal())
     return alerts
+
+app.include_router(chat_router)
