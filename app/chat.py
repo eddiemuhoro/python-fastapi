@@ -19,6 +19,10 @@ client = OpenAI(api_key=api_key)
 
 router = APIRouter()
 
+system_message = {
+    "role": "system",
+    "content": "You are a travel assistant providing detailed information on travel document requirements."
+}
 # Define the structure for chat messages
 class ChatMessage(BaseModel):
     role: Literal["system", "user", "assistant"]
@@ -36,7 +40,7 @@ async def post_chat(chat_request: ChatRequest):
         # Create a chat completion using the OpenAI client
         response = client.chat.completions.create(
             model="gpt-4.1-nano",  # Ensure this model is available to your account
-            messages=[msg.model_dump() for msg in chat_request.messages],
+            messages=[system_message]+[msg.model_dump() for msg in chat_request.messages],
         )
         # Extract the reply from the response
         reply = response.choices[0].message.content
