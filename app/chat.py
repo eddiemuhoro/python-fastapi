@@ -13,7 +13,6 @@ router = APIRouter()
 
 # Initialize OpenAI client
 api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
 
 # Define Pydantic models
 class ChatMessage(BaseModel):
@@ -27,7 +26,9 @@ class ChatRequest(BaseModel):
     messages: List[ChatMessage]
 
 @router.post("/api/chat")
+
 async def post_chat(chat_request: ChatRequest, db: AsyncSession = Depends(get_db)):
+    client = OpenAI(api_key=api_key)
     try:
         user_id = chat_request.messages[0].user_id or "anonymous"
 
