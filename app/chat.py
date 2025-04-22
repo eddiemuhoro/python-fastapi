@@ -41,7 +41,6 @@ async def post_chat(chat_request: ChatRequest, db: AsyncSession = Depends(get_db
         if last_user_message:
             await create_message(db=db, conversation_id=conversation.id, role="user", content=last_user_message.content)
 
-        # Prepare messages for OpenAI
         system_message = {
             "role": "system",
             "content": "You are a travel assistant providing detailed information on travel document requirements."
