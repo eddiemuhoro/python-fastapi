@@ -55,13 +55,4 @@ async def get_conversations(user_id: str, db: AsyncSession = Depends(get_db)):
     ]
 
 
-@app.get("/api/chat/{conversation_id}/history")
-async def get_chat_history(conversation_id: int, db: AsyncSession = Depends(get_db)):
-    messages = await get_messages_by_conversation(db, conversation_id)
-    return [
-        {"role": msg.role, "content": msg.content, "timestamp": msg.timestamp}
-        for msg in messages
-    ]
-
-
 app.include_router(chat_router)

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import List, Literal, Optional
 from fastapi.responses import JSONResponse
 from .database import get_db
-from .crud import create_conversation, get_conversation, create_message
+from .crud import create_conversation, get_conversation, create_message, get_messages_by_conversation
 from sqlalchemy.ext.asyncio import AsyncSession
 from openai import OpenAI
 import os
@@ -61,4 +61,17 @@ async def post_chat(chat_request: ChatRequest, db: AsyncSession = Depends(get_db
 
     except Exception as e:
         print("OpenAI API error:", e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/api/chat/{conversation_id}/history")
+async def get_chat_history(conversation_id: int, db: AsyncSession = Depends(get_db)):
+    try:
+        messages = await get_messages_by_conversation(db, conversation_id)
+        return [
+            {"role": msg.role, "content": msg.content, "timestamp": msg.timestamp}
+            for msg in messages
+        ]
+    except Exception as e:
+        print("Error loading messages:", e)
         raise HTTPException(status_code=500, detail=str(e))
