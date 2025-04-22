@@ -5,7 +5,11 @@ from .database import engine, SessionLocal
 from .models import Base
 from .crud import get_all_devices, get_all_discharge_data, get_all_alerts, get_all_conversations_by_user, get_latest_conversation_by_user, get_messages_by_conversation
 from .chat import router as chat_router
+import asyncio
+import sys
 
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 # This runs once when the server starts
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
