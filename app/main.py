@@ -47,27 +47,13 @@ async def read_alerts():
     alerts = await get_all_alerts(db=SessionLocal())
     return alerts
 
-@app.get("/api/conversations/query")
-async def fetch_conversations(
-    user_id: str = Query(...),
-    latest: bool = Query(False),
-    db: AsyncSession = Depends(get_db)
-):
-    if latest:
-        conversation = await get_latest_conversation_by_user(db, user_id)
-        if not conversation:
-            raise HTTPException(status_code=404, detail="No conversation found.")
-        return {
-            "id": conversation.id,
-            "user_id": conversation.user_id,
-            "created_at": conversation.created_at
-        }
-
+@app.get("/api/conversations/query"+"/{user_id}")
+async def get_conversations(user_id: str, db: AsyncSession = Depends(get_db)):
     conversations = await get_all_conversations_by_user(db, user_id)
     return [
-        {"id": c.id, "user_id": c.user_id, "created_at": c.created_at}
-        for c in conversations
+        {"id": conv.id, "created_at": conv.created_at} for conv in conversations
     ]
+
 
 @app.get("/api/chat/{conversation_id}/history")
 async def get_chat_history(conversation_id: int, db: AsyncSession = Depends(get_db)):
