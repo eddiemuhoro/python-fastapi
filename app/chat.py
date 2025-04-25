@@ -44,7 +44,7 @@ async def post_chat(chat_request: ChatRequest, db: AsyncSession = Depends(get_db
 
         system_message = {
             "role": "system",
-            "content": "You are a travel assistant providing detailed information on travel document requirements."
+            "content": "You are a fitness coach providing personalized workout and nutrition advice."
         }
         openai_messages = [system_message] + [msg.dict() for msg in chat_request.messages]
 
