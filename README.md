@@ -1,4 +1,4 @@
-# RDMS Python Backend
+# Water Management Python Backend
 
 A FastAPI-based backend for managing device deployments, discharge data, alerts, and chat conversations, designed for integration with modern frontend applications and deployment on Vercel.
 
@@ -37,7 +37,7 @@ A FastAPI-based backend for managing device deployments, discharge data, alerts,
 
    ```sh
    git clone <your-repo-url>
-   cd rdms-python
+   cd WMS-python
    ```
 
 2. **Create and activate a virtual environment**
@@ -76,8 +76,8 @@ A FastAPI-based backend for managing device deployments, discharge data, alerts,
 ## API Endpoints
 
 - `GET /` — Health check.
-- `GET /rdms/devices` — List all devices.
-- `GET /rdms` — List all discharge data.
+- `GET /WMS/devices` — List all devices.
+- `GET /WMS` — List all discharge data.
 - `GET /alerts` — List all alerts.
 - `POST /api/chat` — Chat endpoint (OpenAI-powered).
 - `GET /api/chat/{conversation_id}/history` — Get chat history.
